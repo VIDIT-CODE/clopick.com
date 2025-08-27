@@ -1,0 +1,48 @@
+.clothing-slideshow-section {
+  width: 100%;
+  max-width: 95vw;
+  height: 160px;
+  margin: 1.2rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .clothing-slideshow-section {
+    width: 98vw !important;
+    max-width: 98vw !important;
+    height: 180px !important; /* Match banner section height for view < 900px */
+    margin: 0 auto 1.5rem auto !important; /* Place below trending products, add bottom margin */
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    background: #fff !important;
+    z-index: 1 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .clothing-slideshow-section {
+    width: 98vw !important;
+    max-width: 98vw !important;
+    height: 120px !important; /* Match banner section height for mobile */
+    margin: 0 auto 1rem auto !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    background: #fff !important;
+    z-index: 1 !important;
+  }
+}
