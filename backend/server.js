@@ -12,6 +12,8 @@ const sellerProductsRoutes = require('./routes/sellerProducts'); // Seller produ
 
 const app = express();
 
+
+
 // Middleware
 app.use(cors({
   origin: (origin, callback) => {
