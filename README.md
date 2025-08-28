@@ -19,7 +19,8 @@ MERN Stack E-commerce Clothing Website with OTP-based Customer & Seller Registra
 - **Authentication:** OTP via Email (Nodemailer)
 
 ## 📸 Screenshots
-(Add screenshots of your website here)
+### 🏠 Homepage
+![Homepage](screenshots of clopick/customer homepage 1.png)
 
 ## 👨‍💻 Author
 **Vidit** - B.Tech CSE Student | MERN Stack Developer  
