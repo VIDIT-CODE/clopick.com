@@ -3,7 +3,7 @@ import "./RegistrationModal.css";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const API_BASE_URL = "https://clopick-com-1.onrender.com/"; // Change 5000 to 3000 to match backend
+const API_BASE_URL = "https://clopick-com-1.onrender.com"; // Change 5000 to 3000 to match backend
 
 const RegistrationModal = ({ onClose, mode = "register" }) => {
   const [showPassword, setShowPassword] = useState(false);
