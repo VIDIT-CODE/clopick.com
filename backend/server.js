@@ -20,8 +20,13 @@ app.use(cors({
     // Allow requests with no origin (curl, Postman, mobile apps)
     if (!origin) return callback(null, true);
 
-    // Allow your frontend URL
-    if (origin === 'https://clopick-com-1.onrender.com') return callback(null, true);
+    // Allow both frontend URLs
+    const allowedOrigins = [
+      "https://clopick-com.onrender.com",
+      "https://clopick-com-1.onrender.com"
+    ];
+
+    if (allowedOrigins.includes(origin)) return callback(null, true);
 
     // Reject all other origins
     return callback(new Error('Not allowed by CORS'));
