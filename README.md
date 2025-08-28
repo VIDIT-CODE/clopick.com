@@ -65,6 +65,6 @@ MERN Stack E-commerce Clothing Website with OTP-based Customer & Seller Registra
   ![Seller Messages](screenshots%20of%20clopick/seller%20messages.png)
 
 
-## 👨‍💻 Author
+## 👨‍💻 Developer
 **Vidit** - B.Tech CSE Student | MERN Stack Developer  
 [LinkedIn](https://www.linkedin.com/in/codevidit/)
