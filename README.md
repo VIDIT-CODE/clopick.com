@@ -16,11 +16,11 @@ MERN Stack E-commerce Clothing Website with OTP-based Customer & Seller Registra
 - **Frontend:** React, Tailwind CSS  
 - **Backend:** Node.js, Express.js  
 - **Database:** MongoDB  
-- **Authentication:** OTP via Email & Mobile (Firebase + Nodemailer)
+- **Authentication:** OTP via Email (Nodemailer)
 
 ## 📸 Screenshots
 (Add screenshots of your website here)
 
 ## 👨‍💻 Author
 **Vidit** - B.Tech CSE Student | MERN Stack Developer  
-[LinkedIn](your-linkedin-link) | [Portfolio](your-portfolio-link)
+[LinkedIn](www.linkedin.com/in/codevidit) |
