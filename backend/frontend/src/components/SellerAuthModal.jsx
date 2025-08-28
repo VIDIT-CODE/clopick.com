@@ -3,6 +3,10 @@ import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:3000";
+
+
 const SellerAuthModal = ({ onClose, onSellerLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
@@ -67,7 +71,7 @@ const SellerAuthModal = ({ onClose, onSellerLogin }) => {
         email: form.email,
       });
       const res = await axios.post(
-        "http://localhost:3000/api/seller/send-otp",
+        `${API_BASE_URL}/api/seller/send-otp`,
         {
           name: form.businessName,
           email: form.email,
@@ -100,7 +104,7 @@ const SellerAuthModal = ({ onClose, onSellerLogin }) => {
       setLoading(true);
       setRegisterSuccess(false);
       // Only send required fields for backend
-      const res = await axios.post("http://localhost:3000/api/seller/register", {
+      const res = await axios.post(`${API_BASE_URL}/api/seller/send-otp`, {
         name: form.businessName,
         email: form.email,
         password: form.password,
