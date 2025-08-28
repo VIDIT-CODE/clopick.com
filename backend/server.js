@@ -14,25 +14,30 @@ const sellerProductsRoutes = require('./routes/sellerProducts'); // Seller produ
 
 const app = express();
 
-// Middleware
+// ---------- CORS Middleware ----------
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('https://clopick-com-1.onrender.com')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+  origin: function (origin, callback) {
+    // Allow requests with no origin (curl, Postman, mobile apps)
+    if (!origin) return callback(null, true);
+
+    // Allow your frontend URL
+    if (origin === 'https://clopick-com-1.onrender.com') return callback(null, true);
+
+    // Reject all other origins
+    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
 }));
 
-app.options('*', cors()); // Preflight requests
+// Handle preflight requests
+app.options('*', cors());
+
+// Parse JSON
 app.use(express.json());
 
-// Enable Mongoose debug mode (optional)
+// ---------- Mongoose Setup ----------
 mongoose.set('debug', true);
 
-// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -40,30 +45,30 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('✅ Connected to MongoDB'))
 .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// API Routes
+// ---------- API Routes ----------
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/seller', sellerAuthRoutes);
 app.use('/api/seller/products', sellerProductsRoutes);
 
-// Serve React frontend build for non-API routes
+// ---------- Serve React Frontend ----------
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 app.get('*', (req, res, next) => {
-  if (req.path.startsWith('/api')) return next(); // skip API routes
+  if (req.path.startsWith('/api')) return next(); // Skip API routes
   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
-// Catch-all for unknown API routes
+// ---------- Catch-all API 404 ----------
 app.use('/api/*', (req, res) => {
   res.status(404).json({ error: 'API route not found' });
 });
 
-// Global Error Handler
+// ---------- Global Error Handler ----------
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server
+// ---------- Start Server ----------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
