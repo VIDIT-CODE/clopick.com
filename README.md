@@ -23,4 +23,4 @@ MERN Stack E-commerce Clothing Website with OTP-based Customer & Seller Registra
 
 ## 👨‍💻 Author
 **Vidit** - B.Tech CSE Student | MERN Stack Developer  
-[LinkedIn](https://www.linkedin.com/in/codevidit/) |
+[LinkedIn](https://www.linkedin.com/in/codevidit/)
