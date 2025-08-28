@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
+
 dotenv.config(); // Load environment variables
 
 // Route Imports
@@ -12,14 +14,10 @@ const sellerProductsRoutes = require('./routes/sellerProducts'); // Seller produ
 
 const app = express();
 
-
-
 // Middleware
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl, etc.) or from localhost
-    if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('https://clopick-com-1.onrender.com') ) 
-    {
+    if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('https://clopick-com-1.onrender.com')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -28,19 +26,7 @@ app.use(cors({
   credentials: true,
 }));
 
-// Explicitly handle preflight OPTIONS requests for all routes
-app.options('*', cors({
-  origin: (origin, callback) => {
-    if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('https://clopick-com-1.onrender.com')) 
-    {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
-
+app.options('*', cors()); // Preflight requests
 app.use(express.json());
 
 // Enable Mongoose debug mode (optional)
@@ -55,41 +41,19 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 // API Routes
-app.use('/api/products', productRoutes);   // Product-related endpoints
-app.use('/api/auth', authRoutes);          // Customer registration/login/OTP
-app.use('/api/seller', sellerAuthRoutes);  // Seller registration/login/OTP
-app.use('/api/seller/products', sellerProductsRoutes); // Seller product endpoints
+app.use('/api/products', productRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/seller', sellerAuthRoutes);
+app.use('/api/seller/products', sellerProductsRoutes);
 
-// code given by chatgpt starts here
-const path = require('path');
-
-// Serve React frontend build
+// Serve React frontend build for non-API routes
 app.use(express.static(path.join(__dirname, 'frontend/build')));
-
-// Fallback to React's index.html for all non-API routes
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api')) return next(); // skip API routes
   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
-// Keep your existing API 404 and error handlers below this
-app.use('/api/*', (req, res) => {
-  res.status(404).json({ error: 'API route not found' });
-});
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
-
-// code given by chatgpt ends here
-
-
-// Default Route
-app.get('/', (req, res) => {
-  res.send('🚀 CLOPICK API is running...');
-});
-
-// Catch-all for unknown API routes to return JSON, not HTML
+// Catch-all for unknown API routes
 app.use('/api/*', (req, res) => {
   res.status(404).json({ error: 'API route not found' });
 });
@@ -100,6 +64,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Server Start
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
