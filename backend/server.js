@@ -18,7 +18,8 @@ const app = express();
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, etc.) or from localhost
-    if (!origin || origin.startsWith('http://localhost:')) {
+    if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('https://clopick-com-1.onrender.com') ) 
+    {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -30,7 +31,8 @@ app.use(cors({
 // Explicitly handle preflight OPTIONS requests for all routes
 app.options('*', cors({
   origin: (origin, callback) => {
-    if (!origin || origin.startsWith('http://localhost:')) {
+    if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('https://clopick-com-1.onrender.com')) 
+    {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
