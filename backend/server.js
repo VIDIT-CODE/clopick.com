@@ -60,6 +60,30 @@ app.use('/api/auth', authRoutes);          // Customer registration/login/OTP
 app.use('/api/seller', sellerAuthRoutes);  // Seller registration/login/OTP
 app.use('/api/seller/products', sellerProductsRoutes); // Seller product endpoints
 
+// code given by chatgpt starts here
+const path = require('path');
+
+// Serve React frontend build
+app.use(express.static(path.join(__dirname, 'frontend/build')));
+
+// Fallback to React's index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+});
+
+// Keep your existing API 404 and error handlers below this
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API route not found' });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// code given by chatgpt ends here
+
+
 // Default Route
 app.get('/', (req, res) => {
   res.send('🚀 CLOPICK API is running...');
