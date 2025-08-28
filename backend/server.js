@@ -13,6 +13,11 @@ const sellerAuthRoutes = require('./routes/sellerAuth'); // Seller auth
 const sellerProductsRoutes = require('./routes/sellerProducts'); // Seller product routes
 
 const app = express();
+  const allowedOrigins = [
+      "https://clopick-com.onrender.com",
+      "https://clopick-com-1.onrender.com",
+      "https://clopick-com.com"
+  ];
 
 // ---------- CORS Middleware ----------
 app.use(cors({
@@ -21,10 +26,6 @@ app.use(cors({
     if (!origin) return callback(null, true);
 
     // Allow both frontend URLs
-    const allowedOrigins = [
-      "https://clopick-com.onrender.com",
-      "https://clopick-com-1.onrender.com"
-    ];
 
     if (allowedOrigins.includes(origin)) return callback(null, true);
 
@@ -32,10 +33,21 @@ app.use(cors({
     return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization']
 }));
 
 // Handle preflight requests
-app.options('*', cors());
+app.options('*', cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization']
+}));
 
 // Parse JSON
 app.use(express.json());
