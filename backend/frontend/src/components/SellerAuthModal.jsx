@@ -104,7 +104,7 @@ const SellerAuthModal = ({ onClose, onSellerLogin }) => {
       setLoading(true);
       setRegisterSuccess(false);
       // Only send required fields for backend
-      const res = await axios.post(`${API_BASE_URL}/api/seller/send-otp`, {
+      const res = await axios.post(`${API_BASE_URL}/api/seller/register`, {
         name: form.businessName,
         email: form.email,
         password: form.password,
